@@ -1,0 +1,9 @@
+Z:\5\upwork\rat\Pulsar-master\Debug\Stub\boulzar.exe.config
+Z:\5\upwork\rat\Pulsar-master\Debug\Stub\boulzar.exe
+Z:\5\upwork\rat\Pulsar-master\Debug\Stub\boulzar.pdb
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.Properties.Resources.resources
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.csproj.GenerateResource.Cache
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.exe
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.pdb
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.csproj.AssemblyReference.cache
+Z:\5\upwork\rat\Pulsar-master\Client\Client\obj\Debug\boulzar.csproj.CoreCompileInputs.cache
