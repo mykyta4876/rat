@@ -79,7 +79,3 @@ Third-party licenses are located [here](Licenses).
 
 ## Thank you!
 I really appreciate all kinds of feedback and contributions. Thanks for using and supporting Quasar!
-
-
-1@gmail.com
-YZ3l9Tws59Ff/wP97OOcDpFavnSzJ56kdaNwkRwE4sc=
