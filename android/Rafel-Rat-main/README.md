@@ -82,37 +82,15 @@ Watch Video in Full Screen For Better Quality
 
 ---
 
-### Check this Article 
-
-- https://dontkillmyapp.com/
-
-
 --- 
 ## Disclaimer
 <b>Swagkarna Provides no warranty and will not be responsible for any direct or indirect damage caused by this tool.<br>
 Rafel-Rat is built for Educational and Internal use ONLY.</b>
 
 ---
-
-## Contact :
-<a href=mailto:swagkarna@gmail.com><img src="https://img.shields.io/badge/Gmail-swagkarna-green?style=for-the-badge" /></a>
-<a href=https://twitter.com/swagkarna><img src="https://img.shields.io/badge/Twitter-@swagkarna-blue?style=for-the-badge" /></a>
-
-
 ---    
 
 <p align="center">  
 <img src="https://user-images.githubusercontent.com/46685308/113503828-f88fdf00-9551-11eb-9815-7371515655c1.png"></img>
 </p>
 <h2 align="center">Inspired From Raptor-Rat</h2>
-
----
-### ❤️Supporters❤️
-[![Stargazers repo roster for @swagkarna/Rafel-Rat](https://reporoster.com/stars/swagkarna/Rafel-Rat)](https://github.com/swagkarna/Rafel-Rat/stargazers)
-[![Forkers repo roster for @swagkarna/Rafel-Rat](https://reporoster.com/forks/swagkarna/Rafel-Rat)](https://github.com/swagkarna/Rafel-Rat/network/members)
-
----
-                        
-                        
-                     
-
