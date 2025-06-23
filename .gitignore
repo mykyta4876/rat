@@ -12,3 +12,6 @@ Resources.RES
 *.bmp
 *.tlog
 *.log
+*.exp
+*.lib
+*.idb
