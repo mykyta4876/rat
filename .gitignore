@@ -1,0 +1,12 @@
+ipch
+.vs
+GIF.gif
+curl
+*.pdb
+*.exe
+*.obj
+error_log
+GIF-b.1.gif
+Resources.RES
+*.dll
+*.bmp
