@@ -10,3 +10,5 @@ GIF-b.1.gif
 Resources.RES
 *.dll
 *.bmp
+*.tlog
+*.log
