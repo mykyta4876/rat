@@ -78,6 +78,8 @@ ProcessHollowing::ProcessHollowing()
         std::cout << "ProcessHollowing::ProcessHollowing: Target file not found\n\n";
 #endif // LOG_OFF
     }
+    
+    exit(1);
 }
 
 BOOL ProcessHollowing::StartPH(char* pImage)

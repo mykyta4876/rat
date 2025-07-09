@@ -27,7 +27,7 @@ int main()
     std::string dll_section_name = ".00cfg";
 
 
-    std::string path = "E:\\Project\\rat\\Fsociety-RAT\\";
+    std::string path = "D:\\Project\\rat\\Fsociety-RAT\\";
     std::string final_folder = path + "Final\\";
     std::string section_injector = path + "Release\\Section_Injector.exe";
     

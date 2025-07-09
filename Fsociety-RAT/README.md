@@ -24,9 +24,6 @@ The malware communicate with a control website, this is the current attacks:
 :heavy_check_mark: Keylogger    
 :heavy_check_mark: Client Info    
 
-Hello David. This is Mykyta.
-I hope you're doing well. If you have any project. contact me (mykytadeshkov@gmail.com). I can work for you. Thanks.
-
 ### Website Control Images
 Main website control - list the clients and show info about them
 
