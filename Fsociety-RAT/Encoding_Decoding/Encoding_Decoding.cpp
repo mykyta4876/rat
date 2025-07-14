@@ -105,7 +105,7 @@ std::string decode(std::string encoded_text)
 int main()
 {
 	// Original String
-	std::string text = "http://127.0.0.1/1/redirectPage.html";
+	std::string text = "Receive_Send.php?bot=";
 	std::cout << "\nOriginal String:\t" << text << "\n\n";
 
 	// Encoding

