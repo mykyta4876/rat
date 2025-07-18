@@ -84,3 +84,19 @@ This helps me to obfuscate the strings in the malware.
 
 ##   
 This project is for EDUCATIONAL PURPOSES ONLY. You are the only responsable for your actions! Happy Hacking (;
+
+
+sudo apt install php-mysqli
+
+http://34.29.59.35/2/real_login.php
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234qwer';
+FLUSH PRIVILEGES;
+EXIT;
+
+CREATE USER 'myuser'@'localhost' IDENTIFIED BY '1234qwer';
+GRANT ALL PRIVILEGES ON rat.* TO 'myuser'@'localhost';
+FLUSH PRIVILEGES;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234qwer';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'BlueskyP@ss123';
