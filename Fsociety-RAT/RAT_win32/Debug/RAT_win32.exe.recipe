@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Project\rat\Fsociety-RAT\Debug\RAT.exe</FullPath>
+      <FullPath>D:\Project\rat\Fsociety-RAT\Debug\RAT_win32.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

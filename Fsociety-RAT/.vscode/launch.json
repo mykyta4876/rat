@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/Project/rat/Fsociety-RAT/RAT",
-      "program": "e:/Project/rat/Fsociety-RAT/RAT/build/Debug/outDebug",
+      "cwd": "d:/Project/rat/Fsociety-RAT/Encoding_Decoding",
+      "program": "d:/Project/rat/Fsociety-RAT/Encoding_Decoding/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

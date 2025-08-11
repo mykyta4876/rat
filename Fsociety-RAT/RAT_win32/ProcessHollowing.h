@@ -15,6 +15,7 @@
 
 #pragma comment(lib,"ntdll.lib")
 
+typedef LONG NTSTATUS;
 EXTERN_C NTSTATUS NTAPI NtUnmapViewOfSection(HANDLE, PVOID);
 
 class ProcessHollowing : Tools

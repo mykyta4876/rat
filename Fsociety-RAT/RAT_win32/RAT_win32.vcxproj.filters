@@ -15,6 +15,50 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RAT_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ADS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiVM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bypass_UAC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CURL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObfuscateImports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessHollowing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskScheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RAT_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ADS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,32 +94,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ADS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AntiVM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bypass_UAC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CURL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObfuscateImports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProcessHollowing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskScheduler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ResourceCompile Include="RAT_win32.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="RAT_win32.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

